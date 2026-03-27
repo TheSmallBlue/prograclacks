@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dftbwf3dcv7d7"]
+
+[ext_resource type="Texture2D" uid="uid://ekisdenueh13" path="res://assets/textures/circle.svg" id="1_3omx4"]
+[ext_resource type="Script" uid="uid://2pdfogl13w33" path="res://components/balls/ailen/tracer_overwatch/bullet.gd" id="1_qqsf3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qqsf3"]
+radius = 63.007935
+
+[node name="TracerBullet" type="Area2D" unique_id=1655164611]
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_qqsf3")
+speed = 750.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=23522838]
+modulate = Color(0, 0.68250406, 0.68265885, 1)
+texture = ExtResource("1_3omx4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1152565258]
+shape = SubResource("CircleShape2D_qqsf3")

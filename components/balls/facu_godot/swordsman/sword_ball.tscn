@@ -32,7 +32,6 @@ sword_node = NodePath("Elements/SwordNode")
 sword = NodePath("Elements/SwordNode/Sword")
 dash_sound = NodePath("DashSound")
 ball_name = "Swordsman"
-attack_cooldown = 0.01
 elements = NodePath("Elements")
 sprite = NodePath("Sprite")
 collision_shape = NodePath("CollisionShape2D")

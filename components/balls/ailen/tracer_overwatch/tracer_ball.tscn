@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://bgxhj7v5l5crd"]
+
+[ext_resource type="Script" uid="uid://b0l3wag5crg3k" path="res://components/balls/ailen/tracer_overwatch/tracer_ball.gd" id="1_0wp01"]
+[ext_resource type="Texture2D" uid="uid://ekisdenueh13" path="res://assets/textures/circle.svg" id="2_3dwy6"]
+[ext_resource type="PackedScene" uid="uid://dftbwf3dcv7d7" path="res://components/balls/ailen/tracer_overwatch/tracer_bullet.tscn" id="2_bobfp"]
+[ext_resource type="Shader" uid="uid://chixp4pynqtxp" path="res://components/balls/ailen/tracer_overwatch/rewind_shader.gdshader" id="2_fqckt"]
+[ext_resource type="Texture2D" uid="uid://dwtujwlqswej" path="res://components/balls/ailen/tracer_overwatch/assets/TracerHair.png" id="3_en1x8"]
+[ext_resource type="FontFile" uid="uid://cy7irh352x1gb" path="res://assets/fonts/Anton-Regular.ttf" id="3_tcxld"]
+[ext_resource type="AudioStream" uid="uid://cms53kqductr2" path="res://assets/audio/clack.ogg" id="4_pda6i"]
+[ext_resource type="Script" uid="uid://din3ab16rrf3q" path="res://components/balls/ailen/tracer_overwatch/rewind_controller.gd" id="5_bdmhw"]
+[ext_resource type="Texture2D" uid="uid://6211yacr3plp" path="res://components/balls/ailen/tracer_overwatch/assets/TracerGun.png" id="6_4620i"]
+[ext_resource type="Script" uid="uid://ox8kehmp0wxk" path="res://components/balls/ailen/tracer_overwatch/rewind_rigidbody_recorder.gd" id="6_fqckt"]
+[ext_resource type="Script" uid="uid://dv2tdea0uxuq3" path="res://components/balls/ailen/tracer_overwatch/rewind_rotation_recorder.gd" id="7_i3lqk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eb21c"]
+bounce = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4620i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eb21c"]
+radius = 66.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_eb21c"]
+font = ExtResource("3_tcxld")
+font_size = 48
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fqckt"]
+shader = ExtResource("2_fqckt")
+shader_parameter/shake = 0.015
+shader_parameter/noiseQuality = 250.0
+shader_parameter/noiseIntensity = 0.0050000002375
+shader_parameter/offsetIntensity = 0.05000000074506
+shader_parameter/colorOffsetIntensity = 0.5
+
+[node name="Ball" type="RigidBody2D" unique_id=1750905078 node_paths=PackedStringArray("rewind_controller", "rewind_timer", "bullet_sources", "effect_rewind", "guns_node", "elements", "sprite", "collision_shape", "attack_timer", "clack_sound", "label")]
+process_mode = 1
+physics_material_override = SubResource("PhysicsMaterial_eb21c")
+gravity_scale = 0.0
+lock_rotation = true
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_0wp01")
+movement_speed = 1000.0
+rewind_controller = NodePath("RewindController")
+rewind_time_seconds = 4.5
+rewind_timer = NodePath("RewindTimer")
+bullet_sources = [NodePath("Elements/GunsNode/RightGun/RightBulletSource"), NodePath("Elements/GunsNode/LeftGun/LeftBulletSource")]
+bullet_scene = ExtResource("2_bobfp")
+effect_rewind = NodePath("RewindEffect")
+guns_node = NodePath("Elements/GunsNode")
+ball_name = "Tracer"
+size = 0.5
+color = Color(0.8641473, 5.506158e-05, 0.6555127, 1)
+elements = NodePath("Elements")
+sprite = NodePath("Sprite")
+collision_shape = NodePath("CollisionShape2D")
+attack_timer = NodePath("AttackTimer")
+clack_sound = NodePath("ClackSound")
+label = NodePath("CenterContainer/Label")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=555754557]
+modulate = Color(0.8, 0.8, 0.8, 1)
+material = SubResource("ShaderMaterial_4620i")
+texture = ExtResource("2_3dwy6")
+
+[node name="Borde" type="Sprite2D" parent="Sprite" unique_id=1785010644]
+modulate = Color(0, 0, 0, 1)
+show_behind_parent = true
+scale = Vector2(1.025, 1.025)
+texture = ExtResource("2_3dwy6")
+
+[node name="TracerHair" type="Sprite2D" parent="Sprite" unique_id=983034096]
+position = Vector2(-1.5625024, -44.9375)
+scale = Vector2(1.0813757, 1.0770959)
+texture = ExtResource("3_en1x8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=441636763]
+shape = SubResource("CircleShape2D_eb21c")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=513371093]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.5
+offset_top = -36.5
+offset_right = 23.5
+offset_bottom = 36.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CenterContainer" unique_id=224051280]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_eb21c")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=485766822]
+process_callback = 0
+wait_time = 0.25
+one_shot = true
+
+[node name="ClackSound" type="AudioStreamPlayer2D" parent="." unique_id=359446657]
+stream = ExtResource("4_pda6i")
+
+[node name="Elements" type="Node2D" parent="." unique_id=1602007940]
+
+[node name="GunsNode" type="Node2D" parent="Elements" unique_id=951459061]
+
+[node name="RewindRotationRecorder" type="Node" parent="Elements/GunsNode" unique_id=544099963]
+script = ExtResource("7_i3lqk")
+
+[node name="RightGun" type="Sprite2D" parent="Elements/GunsNode" unique_id=240750024]
+position = Vector2(50, 40)
+rotation = 3.1415927
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("6_4620i")
+
+[node name="RightBulletSource" type="Node2D" parent="Elements/GunsNode/RightGun" unique_id=1748811071]
+position = Vector2(-200, -79.247)
+
+[node name="LeftGun" type="Sprite2D" parent="Elements/GunsNode" unique_id=1916512386]
+position = Vector2(50, -40)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("6_4620i")
+flip_h = true
+
+[node name="LeftBulletSource" type="Node2D" parent="Elements/GunsNode/LeftGun" unique_id=1360769391]
+position = Vector2(200, -74.533)
+
+[node name="BulletFireTimer" type="Timer" parent="Elements/GunsNode" unique_id=1381944485]
+wait_time = 0.1
+autostart = true
+
+[node name="RewindEffect" type="Sprite2D" parent="." unique_id=1343220036]
+visible = false
+material = SubResource("ShaderMaterial_fqckt")
+texture = ExtResource("2_3dwy6")
+
+[node name="RewindController" type="Node" parent="." unique_id=22847849 node_paths=PackedStringArray("rewind_recorders")]
+script = ExtResource("5_bdmhw")
+rewind_recorders = [NodePath("../RewindRigidbodyRecorder"), NodePath("../Elements/GunsNode/RewindRotationRecorder")]
+playback_speed_multiplier = 1.5
+
+[node name="RewindRigidbodyRecorder" type="Node" parent="." unique_id=1479552731]
+script = ExtResource("6_fqckt")
+
+[node name="RewindTimer" type="Timer" parent="." unique_id=1147153337]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Elements/GunsNode/BulletFireTimer" to="." method="_fire_bullet"]
+[connection signal="playback_done" from="RewindController" to="." method="_on_rewind_controller_playback_done"]
+[connection signal="timeout" from="RewindTimer" to="." method="_on_rewind_ready"]
